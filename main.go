@@ -29,7 +29,7 @@ func main() {
 func getAccounts(file string) (accounts []am.Account, err error) {
 	jsonFile, err := os.Open(file)
 	if err != nil {
-		return nil, fmt.Errorf("open accounts.json: %s", err.Error())
+		return nil, fmt.Errorf("open file %s: %s", file, err.Error())
 	}
 	defer jsonFile.Close()
 
