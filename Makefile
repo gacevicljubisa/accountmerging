@@ -1,12 +1,12 @@
 GO ?= go
 
 test:
-	$(GO) test -v ./merger/...
+	$(GO) test -v ./...
 
 run:
 	$(GO) run .
 
-build: dist FORCE
+binary: dist FORCE
 	$(GO) version
 ifeq ($(OS),Windows_NT)
 	$(GO) build -o dist/accountmerging.exe .
