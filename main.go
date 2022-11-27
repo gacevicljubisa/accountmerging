@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 
 	am "github.com/gacevicljubisa/accountmerging/merger"
@@ -21,10 +20,9 @@ func main() {
 	accountMerger := am.AccountMerger{}
 	persons := accountMerger.Merge(accounts)
 
-	err = write(os.Stdout, persons)
+	err = writeJson(os.Stdout, persons)
 	if err != nil {
 		fmt.Printf("failed to write 'persons': %s\n", err.Error())
-		return
 	}
 }
 
@@ -35,26 +33,18 @@ func getAccounts(file string) (accounts []am.Account, err error) {
 	}
 	defer jsonFile.Close()
 
-	byteValue, err := ioutil.ReadAll(jsonFile)
+	err = json.NewDecoder(jsonFile).Decode(&accounts)
 	if err != nil {
-		return nil, fmt.Errorf("read opened jsonFile as a byte slice: %s", err.Error())
-	}
-
-	err = json.Unmarshal(byteValue, &accounts)
-	if err != nil {
-		return nil, fmt.Errorf("unmarshal jsonFile's contents into 'accounts': %s", err.Error())
+		return nil, fmt.Errorf("decode jsonFile's contents into 'accounts': %s", err.Error())
 	}
 	return
 }
 
-func write(writer io.Writer, persons []am.Person) error {
-	b, err := json.MarshalIndent(persons, "", "  ")
-	if err != nil {
-		return fmt.Errorf("marshal 'persons' to json: %s", err.Error())
-	}
-	n, err := writer.Write(b)
-	if err != nil {
-		return fmt.Errorf("write json failed at byte %v: %s", n, err.Error())
+func writeJson(writer io.Writer, persons []am.Person) error {
+	enc := json.NewEncoder(writer)
+	enc.SetIndent("", "  ")
+	if err := enc.Encode(persons); err != nil {
+		return fmt.Errorf("json encode: %s", err.Error())
 	}
 	return nil
 }
