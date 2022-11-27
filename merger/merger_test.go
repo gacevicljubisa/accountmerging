@@ -59,7 +59,7 @@ func TestMerge(t *testing.T) {
 			},
 		},
 		{
-			name: "accounts_dif_name",
+			name: "accounts_dif_name_same_account",
 			input: []am.Account{
 				{
 					Application: json.Number("1"),
@@ -92,6 +92,80 @@ func TestMerge(t *testing.T) {
 					Applications: []string{"1"},
 					Emails:       []string{"c@gmail.com", "d@gmail.com"},
 					Name:         "C",
+				},
+			},
+		},
+		{
+			name: "accounts_dif_account_same_name",
+			input: []am.Account{
+				{
+					Application: json.Number("1"),
+					Emails:      []am.Email{am.Email("a@gmail.com"), am.Email("b@gmail.com")},
+					Name:        "A",
+				},
+				{
+					Application: json.Number("1"),
+					Emails:      []am.Email{am.Email("c@gmail.com"), am.Email("d@gmail.com")},
+					Name:        "A",
+				},
+				{
+					Application: json.Number("2"),
+					Emails:      []am.Email{am.Email("a@yahoo.com")},
+					Name:        "A",
+				},
+				{
+					Application: json.Number("3"),
+					Emails:      []am.Email{am.Email("a@yahoo.com"), am.Email("a@gmail.com")},
+					Name:        "A",
+				},
+			},
+			expected: []am.Person{
+				{
+					Applications: []string{"1", "2", "3"},
+					Emails:       []string{"a@gmail.com", "b@gmail.com", "a@yahoo.com"},
+					Name:         "A",
+				},
+				{
+					Applications: []string{"1"},
+					Emails:       []string{"c@gmail.com", "d@gmail.com"},
+					Name:         "A",
+				},
+			},
+		},
+		{
+			name: "accounts_multiple_name_and_account",
+			input: []am.Account{
+				{
+					Application: json.Number("1"),
+					Emails:      []am.Email{am.Email("a@gmail.com"), am.Email("a@gmail.com")},
+					Name:        "A",
+				},
+				{
+					Application: json.Number("1"),
+					Emails:      []am.Email{am.Email("c@gmail.com"), am.Email("d@gmail.com")},
+					Name:        "A",
+				},
+				{
+					Application: json.Number("2"),
+					Emails:      []am.Email{am.Email("a@gmail.com")},
+					Name:        "A",
+				},
+				{
+					Application: json.Number("3"),
+					Emails:      []am.Email{am.Email("a@yahoo.com"), am.Email("a@gmail.com")},
+					Name:        "A",
+				},
+			},
+			expected: []am.Person{
+				{
+					Applications: []string{"1", "2", "3"},
+					Emails:       []string{"a@gmail.com", "a@yahoo.com"},
+					Name:         "A",
+				},
+				{
+					Applications: []string{"1"},
+					Emails:       []string{"c@gmail.com", "d@gmail.com"},
+					Name:         "A",
 				},
 			},
 		},

@@ -45,7 +45,7 @@ func (am *AccountMerger) Merge(accounts []Account) (persons []Person) {
 	// initialization
 	for _, account := range accounts {
 		for _, email := range account.Emails {
-			am.owners[email] = account.Name
+			am.owners[email] = account.Name // last name for the email should be used
 			if _, ok := am.apps[email]; !ok {
 				am.apps[email] = make(ApplicationSet)
 			}
@@ -96,17 +96,19 @@ func (am *AccountMerger) Merge(accounts []Account) (persons []Person) {
 		persons = append(persons, Person{
 			Applications: apps,
 			Emails:       emails,
-			Name:         string(am.owners[parent]),
+			Name:         string(am.owners[parent]), // name of parent email will be used
 		})
 	}
 
 	return persons
 }
 
+// add adds email to email set
 func (es EmailSet) add(email Email) {
 	es[email] = struct{}{}
 }
 
+// add adds application to application set
 func (as ApplicationSet) add(application Application) {
 	as[application] = struct{}{}
 }
