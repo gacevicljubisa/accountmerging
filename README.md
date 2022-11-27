@@ -17,6 +17,7 @@ make test
 
 # Execute
 ## from source code
+NOTE: will use *accounts.json* from root of this project as file.
 ```
 go run .
 ```
@@ -25,7 +26,7 @@ or
 make run
 ```
 ## build to run as binary
-NOTE: **accountmerging** binary file is created in dist folder. Put accounts.json in the root folder of the executable file.
+NOTE: **accountmerging** binary file is created in dist folder. Put *accounts.json* in the root folder of the executable file, or specify file path as first argument to any other file in the same format.
 ```
 go build -o dist/accountmerging .
 ```

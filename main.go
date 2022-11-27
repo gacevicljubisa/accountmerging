@@ -10,10 +10,16 @@ import (
 )
 
 func main() {
-	file := "accounts.json"
-	accounts, err := getAccounts(file)
+	var filePath string
+	if len(os.Args) > 1 {
+		filePath = os.Args[1]
+	} else {
+		filePath = "accounts.json"
+	}
+
+	accounts, err := getAccounts(filePath)
 	if err != nil {
-		fmt.Printf("failed to get '%s': %s\n", file, err.Error())
+		fmt.Printf("failed to get accounts: %s\n", err.Error())
 		return
 	}
 
