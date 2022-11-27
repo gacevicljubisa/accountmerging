@@ -25,7 +25,7 @@ or
 ```
 make run
 ```
-## build to run as binary
+## build to run
 NOTE: **accountmerging** binary file is created in dist folder. Put *accounts.json* in the root folder of the executable file, or specify file path as first argument to any other file in the same format.
 ```
 go build -o dist/accountmerging .
@@ -33,4 +33,13 @@ go build -o dist/accountmerging .
 or
 ```
 make binary
+```
+Execute next command from dist folder to use command line argument to specify path to json file:
+* Linux\MacOS
+```
+./accountmerging ../accounts.json
+```
+* Windows
+```
+.\accountmerging.exe ..\accounts.json
 ```
