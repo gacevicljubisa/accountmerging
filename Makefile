@@ -1,4 +1,5 @@
 GO ?= go
+FILE_PATH ?= accounts.json
 
 test:
 	$(GO) test -v ./...
@@ -16,5 +17,8 @@ endif
 
 dist:
 	mkdir $@
+
+merge:
+	./dist/accountmerging $(FILE_PATH)
 
 FORCE:
